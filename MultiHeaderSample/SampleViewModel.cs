@@ -21,18 +21,18 @@ namespace MultiHeaderSample
                     dataTable = new DataTable();
                     dataTable.RowChanged += DataTable_RowChanged;
                     dataTable.RowDeleted += DataTable_RowChanged;
+                    dataTable.Columns.Add(new DataColumn() { ColumnName = "T", DataType = typeof(double) });
+                    dataTable.Columns.Add(new DataColumn() { ColumnName = "TT", DataType = typeof(double) });
+                    
+                    for (int i = 0; i < 27; i++)
+                    {
+                        DataRow dr = dataTable.NewRow();
+                        dr[0] = i * 100;
+                        dr[1] = i * 1000;
+                        dataTable.Rows.Add(dr);
+                    }
                 }
-
-                dataTable.Columns.Add(new DataColumn() { ColumnName = "T", DataType = typeof(double) });
-                dataTable.Columns.Add(new DataColumn() { ColumnName = "TT", DataType = typeof(double) });
-                for (int i = 0; i < 27; i++)
-                {
-                    DataRow dr = dataTable.NewRow();
-                    dr[0] = i * 100;
-                    dr[1] = i * 1000;
-                    dataTable.Rows.Add(dr);
-                }
-                //return null;
+                
                 return dataTable.DefaultView;
             }
         }
