@@ -1,0 +1,115 @@
+﻿<Window x:Class="MultiHeaderSample.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MultiHeaderSample"
+        xmlns:GC="clr-namespace:GgasiControls;assembly=GgasiControls"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.DataContext>
+        <local:SampleViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="NumberCell" TargetType="{x:Type DataGridCell}">
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="TextBlock.TextAlignment" Value="Right"/>
+            <Setter Property="ContentStringFormat" Value="N0"/>
+        </Style>
+        <Style x:Key="TestHeader" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="TestHeader2" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Foreground" Value="Blue"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="TestCell1" TargetType="{x:Type DataGridCell}">
+            <Setter Property="ContentStringFormat" Value="N0"/>
+            <Setter Property="Foreground" Value="Red"/>
+            <Setter Property="Background" Value="Blue"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="TestCell2" TargetType="{x:Type DataGridCell}">
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type DataGridCell}">
+                        <Grid Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <GC:MultiHeader FrozenColumnCount="2" HeaderStyle="{StaticResource TestHeader}" FooterHeight="30" FooterStyle="{StaticResource TestCell2}">
+            <GC:MultiHeader.Rows>
+                <GC:HeaderRow Height="30">
+                    <GC:HeaderColumn Column="0" Title="R1C1" ColumnSpan="2" />
+                    <GC:HeaderColumn Column="2" Title="R1C2" RowSpan="2"/>
+                    <GC:HeaderColumn Column="3"  Title="R1C3" ColumnSpan="4"/>
+                    <GC:HeaderColumn Column="7" Title="R1C4" ColumnSpan="4"/>
+                </GC:HeaderRow>
+                <GC:HeaderRow Height="30">
+                    <GC:HeaderColumn Column="0" Title="R2C1" ColumnSpan="1"/>
+                    <GC:HeaderColumn Column="1" Title="R2C2" ColumnSpan="1"/>
+                    <GC:HeaderColumn Column="3" Title="R2C3" ColumnSpan="2" RowSpan="2"/>
+                    <GC:HeaderColumn Column="5" Title="R2C4 - Style change, Command" ColumnSpan="6" Style="{StaticResource TestHeader2}" IsEnabled="True" Command="{Binding TestCommand}"/>
+                </GC:HeaderRow>
+                <GC:HeaderRow Height="30">
+                    <GC:HeaderColumn Column="0" Title="R3C1 - OnClick" ColumnSpan="2" Style="{StaticResource TestHeader2}" IsEnabled="True" Click="HeaderColumn_Click"/>
+                    <GC:HeaderColumn Column="2" Title="R3C2" ColumnSpan="1"/>
+                    <GC:HeaderColumn Column="5" Title="{Binding TestValue}" ColumnSpan="6"/>
+                </GC:HeaderRow>
+                <GC:HeaderRow>
+                    <GC:HeaderColumn Column="0" Title="R4C1" ColumnSpan="2"/>
+                    <GC:HeaderColumn Column="2" Title="R4C2" ColumnSpan="9"/>
+                </GC:HeaderRow>
+            </GC:MultiHeader.Rows>
+            <DataGrid AutoGenerateColumns="False" 
+                      x:Name="dgTest"
+                      ItemsSource="{Binding TEST}" 
+                      RowHeight="25"
+                      RowHeaderWidth="40"
+                      
+                      ColumnHeaderStyle="{StaticResource TestHeader}"
+                      SelectionUnit="Cell"
+                      HeadersVisibility="All">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="h1" Width="100" Binding="{Binding Path=T, StringFormat=N0}"/>
+                    <DataGridTextColumn Header="h2" Width="150" Binding="{Binding Path=T, StringFormat=N0}"/>
+                    <DataGridTextColumn Header="h3" Width="100" Binding="{Binding Path=TT}"/>
+                    <DataGridTextColumn Header="h4" Width="150" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h5" Width="100" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h6" Width="150" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h7" Width="100" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h8" Width="150" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h9" Width="100" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h10" Width="150" Binding="{Binding Path=T}"/>
+                    <DataGridTextColumn Header="h11" Width="100" Binding="{Binding Path=T}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+            <GC:MultiHeader.FooterCols>
+                <GC:FooterColumn Title="{Binding TestValue3, StringFormat=N0}" ColumnSpan="2"/>
+                <GC:FooterColumn Title="{Binding TestValue2, StringFormat=N0}" Style="{StaticResource TestCell1}"/>
+                <!-- StringFormat={}{0:#,0.00원} -->
+                <GC:FooterColumn Title="{Binding TestValue}"/>
+                <GC:FooterColumn Title="Footer4" Style="{StaticResource TestCell2}"/>
+                <GC:FooterColumn Title="12344" Style="{StaticResource TestCell1}"/>
+                <GC:FooterColumn Title="Footer6" ColumnSpan="5"/>
+            </GC:MultiHeader.FooterCols>
+        </GC:MultiHeader>
+    </Grid>
+</Window>
