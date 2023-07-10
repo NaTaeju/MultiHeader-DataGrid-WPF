@@ -4,3 +4,4 @@
 - I couldn't solve the case of moving the column by dragging it. I want to block Drag, but it seems there is no property.
 - If scrolling does not occur due to the small number of rows in the DataGrid, try attaching the footer below the last row. However, if you do not set the DataGrid RowHeight, it is difficult to measure the size.
 - If you find a solution, I would appreciate it if you could tell me how. ^^;
+![image](https://github.com/NaTaeju/MultiHeader-DataGrid-WPF/assets/96507992/6af0e44b-8ef0-47ba-aeeb-9189f83b1712)
